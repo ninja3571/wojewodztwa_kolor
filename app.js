@@ -29,7 +29,6 @@ function mapa(){
             if(wojL[i].options.color =="blue"){
                 wojL[i].setStyle({
                     color:"blue",
-                    
                 })
             }
         })
@@ -56,7 +55,6 @@ function losuj() {
 
 }
 function start() {
-
     var wylosowaneWojewodztwo = losuj()
     if (wylosowaneWojewodztwo !== null) {
 
@@ -65,24 +63,28 @@ function start() {
 
             if(wojL[i].licznik==1&& wojL[i].options.color =="yellow"){
 
-                wojL[i].setStyle({color:"red"})
+                wojL[i].setStyle({color:"red",opacity:"0.7"})
                 wojL[i].options.color = "red"
             }
             if(wojL[i].name==wylosowaneWojewodztwo){
 
-                wojL[i].setStyle({color:"yellow"})
+                wojL[i].setStyle({color:"yellow",opacity:"0.7"})
                 wojL[i].options.color = "yellow"
                 wojL[i].licznik = 1
             }
         }
     } else {
+        console.log("----------------------------------------------------------")
+        var koniec = document.getElementById("body")
+        document.getElementById("menu").hidden
+        map.remove()
+
     }
 }
 function sprawdz(){ 
 
         for(let i=0;i<=wojL.length-1;i++){
 
-            console.log(wojL[i].name)
             if(wojL[i].name == wojSprawdz){
                 
             if(document.getElementById("input").value==wojSprawdz){
@@ -100,4 +102,3 @@ function sprawdz(){
         document.getElementById("input").value=""
         start()
 }
-console
