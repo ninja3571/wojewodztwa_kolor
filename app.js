@@ -10,58 +10,94 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-//mapa kolorowanie
-function style(feature) {
-    return {
-        fillColor: 'blue',
-        weight: 2,
-        opacity: 0.5,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-    };
+var wojL = []
+var wojSprawdz = ""
+function mapa(){
+    for(let i=0;i<=wojewodztwa.features.length-1;i++){
+        var woj = wojewodztwa.features[i]
+        var mapwoje = L.geoJSON(woj,{color:"blue"}).addTo(map)
+        mapwoje.on("mouseover",(e)=>{
+        if(wojL[i].options.color=="blue"){
+                wojL[i].setStyle({
+                    color:"purple",
+                    weight:3,
+                })
+            }
+        })
+
+        mapwoje.on("mouseout",(e)=>{
+            if(wojL[i].options.color =="blue"){
+                wojL[i].setStyle({
+                    color:"blue",
+                    
+                })
+            }
+        })
+
+        mapwoje.name= wojewodztwa.features[i].properties.nazwa
+        wojL.push(mapwoje)
+    }
 }
+mapa()
+var wojela = L.geoJson(wojewodztwa.features).addTo(map);
+wojela.setStyle({color:"none"})
+var wojdos = wojela.getLayers()
+function losuj() {
 
-L.geoJson(wojewodztwa, {style: style}).addTo(map);
+    if (wojdos.length === 0) {
+        return null;
+    }
 
-function highlightFeature(e) {
-    var layer = e.target;
+    var wylosowanyIndex = Math.floor(Math.random() * wojdos.length)
+    var wylosowane = wojdos[wylosowanyIndex]
+    var nazwaWojewodztwa = wylosowane.feature.properties.nazwa
+    wojdos.splice(wylosowanyIndex, 1)
+    return nazwaWojewodztwa
 
-    layer.setStyle({
-        fillColor: 'yellow',
-        weight: 5,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.7
-    });
-
-    layer.bringToFront();
 }
+function start() {
 
-function resetHighlight(e) {
-    geojson.resetStyle(e.target);
+    var wylosowaneWojewodztwo = losuj()
+    if (wylosowaneWojewodztwo !== null) {
+
+        wojSprawdz =  wylosowaneWojewodztwo
+        for(let i=0;i<=wojL.length-1;i++){
+
+            if(wojL[i].licznik==1&& wojL[i].options.color =="yellow"){
+
+                wojL[i].setStyle({color:"red"})
+                wojL[i].options.color = "red"
+            }
+            if(wojL[i].name==wylosowaneWojewodztwo){
+
+                wojL[i].setStyle({color:"yellow"})
+                wojL[i].options.color = "yellow"
+                wojL[i].licznik = 1
+            }
+        }
+    } else {
+    }
 }
+function sprawdz(){ 
 
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-    });
+        for(let i=0;i<=wojL.length-1;i++){
+
+            console.log(wojL[i].name)
+            if(wojL[i].name == wojSprawdz){
+                
+            if(document.getElementById("input").value==wojSprawdz){
+
+                wojL[i].setStyle({color:"lime"})
+                wojL[i].options.color = "lime"
+            }
+            else{
+
+                wojL[i].setStyle({color:"red"})
+                wojL[i].options.color = "red"
+            }
+            }
+        }
+        document.getElementById("input").value=""
+        start()
 }
-
-geojson = L.geoJson(wojewodztwa, {
-    style: style,
-    onEachFeature: onEachFeature
-}).addTo(map);
-
-// losowanie
-function losuj(){
-    max = 16
-    return Math.floor(Math.random()*max)
-}
-
-function woj(){
-    losuj()
-    console.log(losuj())
-    
-}
+console
