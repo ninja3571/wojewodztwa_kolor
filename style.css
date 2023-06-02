@@ -1,6 +1,7 @@
 body{
     margin: 0px;
     overflow: hidden;
+    background-color: rgb(48, 48, 48);
 }
 
 #map{
@@ -36,4 +37,56 @@ body{
     position: absolute;
     bottom: 0px;
     right: 0px;
+}
+#koniec{
+    height: 100vh;
+    width:100%;
+    background-color: rgb(48, 48, 48);
+
+    z-index: 1;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+
+    display: grid;
+    grid-template-areas: 
+    "koniec koniec"
+    "DWoj ZWoj"
+    "dobre zle";
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 30vh 10vh 60vh;
+}
+#h1{
+    grid-area: koniec;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    color: aquamarine;
+    font-size: 500%;
+}
+#dWoj{
+    margin: 0px;
+    background-color: rgb(100, 100, 100);
+    grid-area: DWoj;
+    color: chartreuse;
+    font-size: 200%;
+}
+#zWoj{
+    margin: 0px;
+    background-color: rgb(100, 100, 100);
+    grid-area: ZWoj;
+    color: crimson;
+    font-size: 200%;
+}
+#good{
+    grid-area: dobre;
+    color: lime;
+    font-size: 125%;
+    width: 90%;
+}
+#bad{
+    grid-area: zle;
+    color: red;
+    font-size: 125%;
+    width: 80%;
 }

@@ -12,6 +12,10 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var wojL = []
 var wojSprawdz = ""
+var losy=0
+var dobre =[]
+var zle =[]
+
 function mapa(){
     for(let i=0;i<=wojewodztwa.features.length-1;i++){
         var woj = wojewodztwa.features[i]
@@ -74,10 +78,16 @@ function start() {
             }
         }
     } else {
-        console.log("----------------------------------------------------------")
-        var koniec = document.getElementById("body")
-        document.getElementById("menu").hidden
-        map.remove()
+
+        if(losy==16){
+            document.getElementById("koniec").style.zIndex = 40
+            document.getElementById("good").innerHTML = dobre
+            document.getElementById("bad").innerHTML = zle
+        
+            console.log("**************************************************************")
+            console.log(dobre)
+            console.log(zle)
+        }
 
     }
 }
@@ -91,14 +101,21 @@ function sprawdz(){
 
                 wojL[i].setStyle({color:"lime"})
                 wojL[i].options.color = "lime"
+                dobre.push(wojSprawdz)
+                losy++
             }
             else{
 
                 wojL[i].setStyle({color:"red"})
                 wojL[i].options.color = "red"
+                zle.push(wojSprawdz)
+                losy++
             }
             }
         }
         document.getElementById("input").value=""
+
+
+
         start()
 }
